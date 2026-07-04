@@ -209,6 +209,7 @@ const STAR_MENU_APPS = [
     iconShape: "non-circle",
     link: "",
     isMinimized: false,
+    render: <Browser link={"https://www.instagram.com"} />,
   },
   {
     id: 15,
@@ -244,6 +245,7 @@ const STAR_MENU_APPS = [
     iconShape: "non-circle",
     link: "",
     isMinimized: false,
+    render: <Browser link={"https://www.messenger.com"} />,
   },
   {
     id: 7,
@@ -252,7 +254,7 @@ const STAR_MENU_APPS = [
     iconShape: "non-circle", // Di menu launcher biar konsisten pake bg juga atau sesuaikan
     link: "",
     isMinimized: false,
-    render: <Browser link={"https://youtube.com"} />,
+    render: <Browser link={"https://www.youtube.com"} />,
   },
   {
     id: 19,
@@ -261,6 +263,7 @@ const STAR_MENU_APPS = [
     iconShape: "non-circle",
     link: "",
     isMinimized: false,
+    render: <Browser link={"https://x.com"} />,
   },
   {
     id: 20,
@@ -269,6 +272,7 @@ const STAR_MENU_APPS = [
     iconShape: "non-circle",
     link: "",
     isMinimized: false,
+    render: <Browser link={"https://play.google.com/store/games"} />,
   },
   {
     id: 6,

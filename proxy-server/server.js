@@ -73,6 +73,9 @@ app.all('/proxy', async (req, res) => {
     const contentType = response.headers['content-type'] || '';
     if (contentType.includes('text/html')) {
       let html = response.data.toString('utf8');
+      
+      html = html.replace(/<meta\s+http-equiv=["']content-security-policy["'][^>]*>/gi, '');
+      
       const baseTag = `<base href="${parsedUrl.origin}${parsedUrl.pathname}">`;
       const interceptScript = `
 <script>
@@ -112,11 +115,17 @@ app.all('/proxy', async (req, res) => {
     return originalOpen.apply(this, [method, resolvedUrl, ...args]);
   };
 
-  const originalReplace = window.history.replaceState;
-  window.history.replaceState = function(state, unused, url) {
+  const originalReplace = History.prototype.replaceState;
+  History.prototype.replaceState = function(state, unused, url) {
     try {
       if (url) {
         let targetStr = String(url);
+        if (!targetStr.startsWith('http') && !targetStr.startsWith('/') && !targetStr.startsWith('//')) {
+          const base = new URL(targetUrl);
+          targetStr = new URL(targetStr, base.href).href;
+        } else if (targetStr.startsWith('/') && !targetStr.startsWith('//')) {
+          targetStr = targetOrigin + targetStr;
+        }
         if (targetStr.startsWith('http')) {
           const parsed = new URL(targetStr);
           if (parsed.origin === targetOrigin) {
@@ -131,11 +140,17 @@ app.all('/proxy', async (req, res) => {
     }
   };
 
-  const originalPush = window.history.pushState;
-  window.history.pushState = function(state, unused, url) {
+  const originalPush = History.prototype.pushState;
+  History.prototype.pushState = function(state, unused, url) {
     try {
       if (url) {
         let targetStr = String(url);
+        if (!targetStr.startsWith('http') && !targetStr.startsWith('/') && !targetStr.startsWith('//')) {
+          const base = new URL(targetUrl);
+          targetStr = new URL(targetStr, base.href).href;
+        } else if (targetStr.startsWith('/') && !targetStr.startsWith('//')) {
+          targetStr = targetOrigin + targetStr;
+        }
         if (targetStr.startsWith('http')) {
           const parsed = new URL(targetStr);
           if (parsed.origin === targetOrigin) {
