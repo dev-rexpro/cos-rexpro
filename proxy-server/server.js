@@ -1,9 +1,12 @@
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
+const path = require('path');
 const app = express();
 
 app.use(cors());
+
+app.use(express.static(path.join(__dirname, 'dist')));
 
 app.get('/proxy', async (req, res) => {
   const targetUrl = req.query.url;
@@ -83,7 +86,11 @@ app.get('/proxy', async (req, res) => {
   }
 });
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Proxy server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
