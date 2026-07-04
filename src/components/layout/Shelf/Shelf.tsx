@@ -193,7 +193,7 @@ export function Shelf() {
                       onClick={() => openApp(app)}
                       variant={"ghost"}
                       className={cn(
-                        "relative p-0 size-9 rounded-full font-medium hover:bg-transparent hover:text-foreground shadow-[0px_1px_3px_rgba(0,0,0,0.15)] flex items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing"
+                        "relative p-0 size-9 rounded-full font-medium hover:bg-transparent hover:text-foreground shadow-[0px_1px_3px_rgba(0,0,0,0.15)] flex items-center justify-center overflow-hidden cursor-pointer"
                       )}
                     >
                       <img
